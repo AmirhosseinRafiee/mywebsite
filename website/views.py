@@ -2,11 +2,10 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 def index_view(request):
-    return HttpResponse('<h1>salam</h1>')
+    return render(request, 'index.html')
 
 def contact_view(request):
-    return HttpResponse('<h1>contact</h1>')
+    return render(request, 'contact.html')
 
 def services_view(request):
-    return HttpResponse('<h1>services</h1>')
-
+    return render(request, 'services.html')
