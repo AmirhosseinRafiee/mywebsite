@@ -1,0 +1,17 @@
+{% load static %}
+<div class="row m0 widget recent_posts">
+    <h5 class="widget_heading">مطالب اخیر</h5>
+    {% for post in latestposts %}
+    <div class="media recent_post">
+        <div class="media-left">
+            <a href="{% url 'blog:single' pid=post.id %}"><img src="{{post.image.url}}" alt=""></a>
+        </div>
+        <div class="media-body">
+            <a href="single-post.html">
+                <h5>{{post.title}}</h5>
+            </a>
+            <p>تاریخ : <a href="{% url 'blog:single' pid=post.id %}">{{post.get_jalali_date}}</a></p>
+        </div>
+    </div>
+    {% endfor %}
+</div>

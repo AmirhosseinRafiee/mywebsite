@@ -1,97 +1,93 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load blog_tags %}
 {% block content %}
-    <section class="row page_intro">
-        <div class="row m0 inner">
-            <div class="container">
-                <div class="row">
-                    <h5>وبلاگ</h5>
-                    <h2>پست تک</h2>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section class="row breadcrumbRow">
-        <div class="container">
-            <div class="row inner m0">
-                <ul class="breadcrumb">
-                    <li><a href="index.html">صفحه نخست</a></li>
-                    <li>وبلاگ</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-    
-    <section class="row content_section">
+<section class="row page_intro">
+    <div class="row m0 inner">
         <div class="container">
             <div class="row">
-                <div class="col-sm-12 col-md-8">
-                    <div class="row m0 blog single_post">
-                        <div class="image_row row m0">
-                            <img src="{% static 'images/blog/blog/6.jpg' %}" alt="" class="img-responsive">
-                        </div>
-                        <h3>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی</h3>
-                            <div class="row m0 meta">توسط : <a href="#">نویسنده &nbsp&nbsp&nbsp</a> تاریخ : <a href="#">فروردین &nbsp&nbsp&nbsp</a> نظرات : (<a href="single-post.html" class="comment_amount">25</a>)</div>
-                        <p>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید <br><br>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود</p>
-                        <blockquote>
-                            <p>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود</p>
-                        </blockquote>
-                        <p>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود<br><br>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود.</p>
-                    </div> <!--Single Post-->
-                    <div class="row m0 tags">برچسب ها :<a href="#">کلینیک</a>, <a href="#">دکتر</a>, <a href="#">وبلاگ</a>, <a href="#">اخبار</a> </div>
-                    <div class="row pager">
-                        <div class="col-sm-6 prev">
-                            <div class="inner row m0">
-                                <a href="#"><i class="fa fa-arrow-left"></i>پست بعد</a><br>
-                                <a href="#">لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی</a>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 next">
-                            <div class="inner row m0">
-                                <a href="#">پست قبل<i class="fa fa-arrow-right"></i></a><br>
-                                <a href="#">لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی</a>
-                            </div>
+                <h2>وبلاگ</h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="row breadcrumbRow">
+    <div class="container">
+        <div class="row inner m0">
+            <ul class="breadcrumb">
+                <li><a href="{% url 'website:index' %}">صفحه نخست</a></li>
+                <li><a href="{% url 'blog:index' %}">وبلاگ</a></li>
+                <li>{{post.title|truncatechars:6}}</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="row content_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-8">
+                <div class="row m0 blog single_post">
+                    <div class="image_row row m0">
+                        <img src="{% static 'images/blog/blog/6.jpg' %}" alt="" class="img-responsive">
+                    </div>
+                    <h3>{{post.title}}</h3>
+                    <div class="row m0 meta">
+                        نویسنده :<a href="{% url 'blog:author' author_username=post.author.username %}">{{post.author.get_full_name}} </a>
+                        &emsp; تاریخ : <a href="#">{{post.get_jalali_date}} &nbsp;&nbsp;{{post.published_date|date:"H:i:s"}} </a>
+                        &emsp; بازدید :<a href="#">({{post.counted_view}})</a>
+                        &emsp; نظرات : <a href="single-post.html" class="comment_amount">({{comments.count}})</a>
+                    </div>
+                    <p>{{post.content|safe}}</p>
+                </div>
+                <!--Single Post-->
+                <div class="row pager">
+                    <div class="col-sm-6 prev">
+                        <div class="inner row m0">
+                            {% if next_post %}
+                            <a href="{% url 'blog:single' pid=next_post.id %}"><i class="fa fa-arrow-left"></i>پست بعد</a><br>
+                            <a href="{% url 'blog:single' pid=next_post.id %}" style="direction: rtl;">{{next_post.title|truncatechars:50}}</a>
+                            {% else %}
+                            <a href="{% url 'blog:index' %}"><i class="fa fa-arrow-left"></i>!پست آخر</a><br>
+                            <a href="{% url 'blog:index' %}">سایر پست ها</a>
+                            {% endif %}
                         </div>
                     </div>
-                    <div class="media author_description">
-                        <div class="media-left media-bottom">
-                            <img src="{% static 'images/blog/blog/author.png' %}" alt="">
-                        </div>
-                        <div class="media-body">
-                            <div class="titleRow text-left">
-                                <h2>جاناتان داو</h2>
-                                <h5>نویسنده</h5>
-                            </div>
-                            <p>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود</p>
-                            <a href="#" class="view_all">همه نوشته ها</a>
+                    <div class="col-sm-6 next">
+                        <div class="inner row m0">
+                            {% if prev_post %}
+                            <a href="{% url 'blog:single' pid=prev_post.id %}">پست قبل<i class="fa fa-arrow-right"></i></a><br>
+                            <a href="{% url 'blog:single' pid=prev_post.id %}" style="direction: rtl;">{{prev_post.title|truncatechars:50}}</a>
+                            {% else %}
+                            <a href="{% url 'blog:index' %}">!پست اول<i class="fa fa-arrow-right"></i></a><br>
+                            <a href="{% url 'blog:index' %}">سایر پست ها</a>
+                            {% endif %}
                         </div>
                     </div>
-                    <div class="row m0 widget comments">
-                        <h5 class="widget_heading">نظرات</h5>
-                        <div class="media comment">
-                            <div class="media-left commenter_img"><a href="#"><img src="{% static 'images/blog/blog/comments/1.jpg' %}" alt=""></a></div>
-                            <div class="media-body comment_body">
-                                <div class="row m0 heading">
-                                    <h5>جان مری <span class="time_ago">دیروز</span></h5>
-                                    <h6>فروردین 1396</h6>
-                                </div>
-                                <p>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود</p>
-                                <a href="#" class="reply_btn">پاسخ</a>
+                </div>
+                <div class="row m0 widget comments">
+                    <h5 class="widget_heading">نظرات</h5>
+                    {% for comment in comments %}
+                    <div class="media comment">
+                        <div class="media-left commenter_img"><a href="#"><img
+                                    src="{% static 'images/blog/blog/comments/1.jpg' %}" alt=""></a></div>
+                        <div class="media-body comment_body">
+                            <div class="row m0 heading">
+                                <h5>{{comment.name}} <span class="time_ago">دیروز</span></h5>
+                                <!-- <h6>{{comment.created_date|date:"d M Y"}}</h6> -->
+                                <h6>{{comment.get_jalali_date}}</h6>
                             </div>
-                        </div> <!--Single Comment-->
-                        <div class="media comment">
-                            <div class="media-left commenter_img"><a href="#"><img src="{% static 'images/blog/blog/comments/1.jpg' %}" alt=""></a></div>
-                            <div class="media-body comment_body">
-                                <div class="row m0 heading">
-                                    <h5>جان مری <span class="time_ago">دیروز</span></h5>
-                                    <h6>فروردین 1396</h6>
-                                </div>
-                                <p>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود</p>
-                                <a href="#" class="reply_btn">پاسخ</a>
-                            </div>
-                        </div> <!--Single Comment-->
-                        <div class="media reply_comment comment">
+                            <p>{{comment.message}}</p>
+                        </div>
+                    </div>
+                    <!--Single Comment-->
+                    {% empty %}
+                    <div class="comment">
+                        <p>تاکنون نظری ثبت نشده است.</p>
+                    </div>
+                    {% endfor %}
+                    <!-- <div class="media reply_comment comment">
                             <div class="media-left media-bottom commenter_img"><a href="#"><img src="{% static 'images/blog/blog/comments/reply.png' %}" alt=""></a></div>
                             <div class="media-body comment_body">
                                 <span class="author_badge">مدیر</span>
@@ -102,126 +98,68 @@
                                 <p>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود</p>
                                 <a href="#" class="reply_btn">پاسخ</a>
                             </div>
-                        </div> <!--Single Comment-->
-                        <div class="media comment">
-                            <div class="media-left commenter_img"><a href="#"><img src="{% static 'images/blog/blog/comments/1.jpg' %}" alt=""></a></div>
-                            <div class="media-body comment_body">
-                                <div class="row m0 heading">
-                                    <h5>جان مری <span class="time_ago">دیروز</span></h5>
-                                    <h6>فروردین 1396</h6>
-                                </div>
-                                <p>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود</p>
-                                <a href="#" class="reply_btn">پاسخ</a>
-                            </div>
-                        </div> <!--Single Comment-->
-                    </div>
-                    <div class="row m0 widget leave_reply">
-                        <h5 class="widget_heading">گذاشتن نظر</h5>
-                        <form action="#" class="row m0 reply_form">
-                            <div class="row m0">
-                                <div class="col-sm-6 p0">
-                                    <input type="text" class="form-control" placeholder="نام شما">
-                                    <input type="email" class="form-control" placeholder="ایمیل">
-                                    <input type="text" class="form-control" placeholder="عنوان">
-                                </div>
-                                <div class="col-sm-9 p0">
-                                    <textarea   class="form-control" placeholder="متن نظر"></textarea>
-                                </div>
-                            </div>
-                            <div class="row m0">
-                                <input type="submit" class="submit_btn" value="ثبت">
-                            </div>
-                        </form>
-                    </div>
+                        </div> Single Comment -->
                 </div>
-                <div class="col-sm-12 col-md-4 sidebar">
-                    <form action="#" class="row m0 search_form widget">
-                        <h5 class="widget_heading">جستجو</h5>
-                        <div class="input-group">
-						    <span class="input-group-addon"><button type="submit">برو</button></span>
-                            <input type="search" class="form-control" placeholder="... جستجو">
-
+                <div class="row m0 widget leave_reply">
+                    <h5 class="widget_heading">گذاشتن نظر</h5>
+                    <form action="{% url 'blog:single' pid=post.id %}" class="row m0 reply_form" method="post">
+                        {% csrf_token %}
+                        <div class="row m0">
+                            <div class="col-sm-6 p0">
+                                <input name="name" type="text" class="form-control" placeholder="نام شما" required>
+                                <input name="email" type="email" class="form-control" placeholder="ایمیل" required>
+                                <input name="title" type="text" class="form-control" placeholder="عنوان" required>
+                            </div>
+                            <div class="col-sm-9 p0">
+                                <textarea name="message" class="form-control" placeholder="متن نظر" required></textarea>
+                            </div>
+                        </div>
+                        <div class="row m0">
+                            <input type="submit" class="submit_btn" value="ثبت">
                         </div>
                     </form>
-                    <div class="row m0 widget categories">
-                        <h5 class="widget_heading">موضوعات</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="#">عمومی</a></li>
-                            <li><a href="#">قلب</a></li>
-                            <li><a href="#">ارتوپدی</a></li>
-                            <li><a href="#">اورژانس</a></li>
-                            <li><a href="#">جراحی</a></li>
-                            <li><a href="#">اورژانس</a></li>
-                            <li><a href="#">دندانپزشکی</a></li>
-                        </ul>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-4 sidebar">
+                {% include "blog-search.html" %}
+                <div class="row m0 widget categories">
+                    <h5 class="widget_heading">موضوعات</h5>
+                    <ul class="list-unstyled">
+                        {% for category in post.categories.all %}
+                        <li><a href="{% url 'blog:category' cat_name=category.name %}">{{category.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="row m0 widget tags">
+                    <h5 class="widget_heading">برچسب ها</h5>
+                    <div class="row m0 tag_list">
+                        {% for tag in post.tags.all %}
+                        <a href="{% url 'blog:tag' tag_name=tag.name %}" class="tag">{{tag.name}}</a>
+                        {% endfor %}
                     </div>
-                    <div class="row m0 widget recent_posts">
-                        <h5 class="widget_heading">مطالب اخیر</h5>
-                        <div class="media recent_post">
-                            <div class="media-left">
-                                <a href="single-post.html"><img src="{% static 'images/blog/recent_posts/1.jpg' %}" alt=""></a>
-                            </div>
-                            <div class="media-body">
-                                <a href="single-post.html"><h5>لورم ایپسوم یا طرح‌نما به متنی آزمایشی</h5></a>
-                                <p>تاریخ : <a href="single-post.html">فروردین</a></p>
-                            </div>
-                        </div>
-                        <div class="media recent_post">
-                            <div class="media-left">
-                                <a href="single-post.html"><img src="{% static 'images/blog/recent_posts/1.jpg' %}" alt=""></a>
-                            </div>
-                            <div class="media-body">
-                                <a href="single-post.html"><h5>لورم ایپسوم یا طرح‌نما به متنی آزمایشی</h5></a>
-                                <p>تاریخ : <a href="single-post.html">فروردین</a></p>
-                            </div>
-                        </div>
-                        <div class="media recent_post">
-                            <div class="media-left">
-                                <a href="single-post.html"><img src="{% static 'images/blog/recent_posts/1.jpg' %}" alt=""></a>
-                            </div>
-                            <div class="media-body">
-                                <a href="single-post.html"><h5>لورم ایپسوم یا طرح‌نما به متنی آزمایشی</h5></a>
-                                <p>تاریخ : <a href="single-post.html">فروردین</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row m0 widget tags">
-                        <h5 class="widget_heading">برچسب ها</h5>
-                        <div class="row m0 tag_list">
-                            <a href="#" class="tag">پزشکی</a>
-                            <a href="#" class="tag">آزمایش</a>
-                            <a href="#" class="tag">دکتر</a>
-                            <a href="#" class="tag">تحقیق</a>
-                            <a href="#" class="tag">گوش</a>
-                            <a href="#" class="tag">دندانپزشکی</a>
-                            <a href="#" class="tag">قلب</a>
-                            <a href="#" class="tag">دندان</a>
-                            <a href="#" class="tag">جراحی</a>
-                            <a href="#" class="tag">زیبایی</a>
-                            <a href="#" class="tag">مغز و اعصاب</a>
-                            <a href="#" class="tag">دندان</a>
-                        </div>
-                    </div>
+                </div>                
+                {% latestposts %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <section class="row book_banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 col-md-9">
+                <div class="row m0">
+                    <h3 class="bannerTitle">سیستم نوبت دهی آنلاین</h3>
+                    <h5>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته
+                        می‌شود</h5>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-3">
+                <div class="row m0">
+                    <a href="#" data-toggle="modal" data-target="#appointmefnt_form_pop" class="view_all">نوبت دهی</a>
                 </div>
             </div>
         </div>
-    </section>
-    
-    <section class="row book_banner">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-8 col-md-9">
-                    <div class="row m0">
-                        <h3 class="bannerTitle">سیستم نوبت دهی آنلاین</h3>
-                        <h5>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود</h5>
-                    </div>
-                </div>
-                <div class="col-sm-4 col-md-3">
-                    <div class="row m0">
-                        <a href="#" data-toggle="modal" data-target="#appointmefnt_form_pop" class="view_all">نوبت دهی</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </div>
+</section> -->
 {% endblock %}

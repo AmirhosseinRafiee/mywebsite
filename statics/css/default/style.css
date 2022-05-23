@@ -2324,12 +2324,12 @@ footer .footer_bottom .copyright a {
 }
 .blog .meta a {
   color: #404d5f;
-  margin-right: 12px;
+  margin-right: 6px;
 }
-.blog .meta a:last-child {
+/* .blog .meta a:last-child {
   margin-right: 0;
   color: #43b9f6;
-}
+} */
 .blog .meta a:hover {
   color: #0186d5;
 }
@@ -2339,6 +2339,7 @@ footer .footer_bottom .copyright a {
   line-height: 24px;
   font-size: 16px;
   text-align: right;
+  direction: rtl;
 }
 .blog.single_post {
   border: none;

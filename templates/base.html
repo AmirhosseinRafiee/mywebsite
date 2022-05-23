@@ -100,8 +100,7 @@
                     <li><a href="doctors.html">پزشکان</a></li>
                     <li><a href="{% url 'website:services' %}">خدمات</a></li>
                     <li><a href="{% url 'website:index' %}">صفحه نخست</a></li>
-                    <li class="hidden-xs book"><a href="#" data-toggle="modal" data-target="#appointmefnt_form_pop">نوبت
-                            دهی</a></li>
+                    <!-- <li class="hidden-xs book"><a href="#" data-toggle="modal" data-target="#appointmefnt_form_pop">نوبت دهی</a></li> -->
                 </ul>
 
 
@@ -238,6 +237,15 @@
             </div>
         </div>
     </div>
+
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert" style=" position: fixed;  top: 50%;  left: 50%;  transform: translate(-50%, -50%);  width: 50%;">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="True">&times;</span>
+      </button>
+      {{ message }}
+    </div>
+    {% endfor %}
 
     <!--jQuery, Bootstrap and other vendor JS-->
 

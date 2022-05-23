@@ -1,0 +1,8 @@
+<div class="row m0 widget tags">
+    <h5 class="widget_heading">برچسب ها</h5>
+    <div class="row m0 tag_list">      
+        {% for tag in tags %}
+        <a href="{% url 'blog:tag' tag_name=tag.name %}" class="tag">{{tag.name}}</a>
+        {% endfor %} 
+    </div>
+</div>

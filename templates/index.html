@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load blog_tags %}
 {% block content %}
     <section class="row bannercontainer p0">
         <div class="preloader"><img src="{% static 'vendors/rs-plugin/assets/loader.gif' %}" alt=""></div>
@@ -202,71 +203,26 @@
                 <h2>وبلاگ کلینیک</h2>
             </div>
             <div class="row recent_post_home recent_post_home3">
+                {% latestposts_home 0 4 as posts %}
+                {% for post in posts %}
                 <div class="col-sm-12 col-md-6">
                     <div class="media">
                         <div class="media-left">
-                            <a href="single-post.html"><img src="{% static 'images/blog/1.jpg' %}" alt=""
+                            <a href="{% url 'blog:single' pid=post.id %}"><img style="max-width: 185px; max-height: 137;" src="{{post.image.url}}" alt=""
                                     class="img-reponsive"></a>
                         </div>
                         <div class="media-body">
-                            <a href="single-post.html">
-                                <h4>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی </h4>
+                            <a href="{% url 'blog:single' pid=post.id %}">
+                                <h4>{{post.title}}</h4>
                             </a>
-                            <div class="row m0 meta">توسط : <a href="#">نویسنده</a> &nbsp; تاریخ : <a
-                                    href="#">فروردین</a></div>
-                            <p>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک
-                                گفته می‌شود . </p>
-                        </div>
-                    </div>
-                    <div class="media">
-                        <div class="media-left">
-                            <a href="single-post.html"><img src="{% static 'images/blog/1.jpg' %}" alt=""
-                                    class="img-reponsive"></a>
-                        </div>
-                        <div class="media-body">
-                            <a href="single-post.html">
-                                <h4>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی </h4>
-                            </a>
-                            <div class="row m0 meta">توسط : <a href="#">نویسنده</a> &nbsp; تاریخ : <a
-                                    href="#">فروردین</a></div>
-                            <p>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک
-                                گفته می‌شود . </p>
+                            <div class="row m0 meta">توسط : <a href="#">{{post.author.get_full_name}}</a> &nbsp; تاریخ : <a
+                                    href="#">{{post.get_jalali_date}}</a></div>
+                            <p style="direction: rtl;">{{post.content|truncatewords:15}}</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6">
-                    <div class="media">
-                        <div class="media-left">
-                            <a href="single-post.html"><img src="{% static 'images/blog/1.jpg' %}" alt=""
-                                    class="img-reponsive"></a>
-                        </div>
-                        <div class="media-body">
-                            <a href="single-post.html">
-                                <h4>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی </h4>
-                            </a>
-                            <div class="row m0 meta">توسط : <a href="#">نویسنده</a> &nbsp; تاریخ : <a
-                                    href="#">فروردین</a></div>
-                            <p>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک
-                                گفته می‌شود . </p>
-                        </div>
-                    </div>
-                    <div class="media">
-                        <div class="media-left">
-                            <a href="single-post.html"><img src="{% static 'images/blog/1.jpg' %}" alt=""
-                                    class="img-reponsive"></a>
-                        </div>
-                        <div class="media-body">
-                            <a href="single-post.html">
-                                <h4>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی </h4>
-                            </a>
-                            <div class="row m0 meta">توسط : <a href="#">نویسنده</a> &nbsp; تاریخ : <a
-                                    href="#">فروردین</a></div>
-                            <p>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک
-                                گفته می‌شود . </p>
-                        </div>
-                    </div>
-                </div>
-                <a href="blog.html" class="view_all">همه اخبار</a>
+                {% endfor %}         
+                <a href="{% url 'blog:index' %}" class="view_all">همه اخبار</a>
             </div>
         </div>
     </section>
@@ -638,7 +594,7 @@
         </div>
     </section>
 
-    <section class="row book_banner">
+    <!-- <section class="row book_banner">
         <div class="container">
             <div class="row">
                 <div class="col-sm-8 col-md-9">
@@ -656,6 +612,6 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
 {% endblock %}
