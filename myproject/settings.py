@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'phonenumber_field',
     'django_summernote',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
+    'robots',
     'jalali_date',
     'taggit',
     'website',
@@ -57,6 +60,13 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'myproject.urls'
+
+# sites settings
+SITE_ID = 2
+
+# robots settings
+ROBOTS_USE_HOST = False
+ROBOTS_USE_SITEMAP = False
 
 # django phonenumber settings
 PHONENUMBER_DB_FORMAT = 'NATIONAL'

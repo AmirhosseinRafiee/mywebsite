@@ -2,6 +2,7 @@ Django>3.2,<3.3
 djangorestframework
 django-taggit
 Pillow
+django-robots
 django-summernote
 django-phonenumber-field
 phonenumberslite
