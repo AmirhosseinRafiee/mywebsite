@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .models import Post, Comment
-from .serializers import Commentserializer
+from .serializers import CommentSerializer
 
 def index_view(request, author_username=None, cat_name=None, tag_name=None):
     posts = Post.objects.filter(status=1)
@@ -32,7 +32,7 @@ def single_view(request, pid):
             'title': request.POST.get('title'),
             'message': request.POST.get('message')
         }
-        ser = Commentserializer(data=data)
+        ser = CommentSerializer(data=data)
         if ser.is_valid():
             ser.save()
             messages.success(request, 'نظر شما ثبت شد')

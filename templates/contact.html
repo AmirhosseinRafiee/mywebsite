@@ -45,33 +45,34 @@
                 <div class="col-sm-8 contact_form_area">
                     <h3 class="contact_section_title">تماس با ما</h3>
                     <div class="contactForm row m0">
-                        <form action="contact_process.php" class="row contact_form" id="contactForm">
+                        <form method="post" action="{% url 'website:contact' %}" class="row contact_form" id="contactForm">
+                        {% csrf_token %}
                             <div class="row m0">
                                 <div class="col-sm-6">
                                     <div class="input-group">
-                                        <label for="contact_fname">نام شما</label>
-                                        <input type="text" class="form-control" id="contact_fname" name="contact_fname">
+                                        <label for="contact_fname">تلفن همراه</label>
+                                        <input type="tel" class="form-control" name="phone" required>
                                     </div>
                                     <div class="input-group">
                                         <label for="contact_femail">ایمیل</label>
-                                        <input type="email" class="form-control" id="contact_femail" name="contact_femail">
+                                        <input type="email" class="form-control" name="email" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="input-group">
-                                        <label for="contact_lname">نام خانوادگی</label>
-                                        <input type="text" class="form-control" id="contact_lname" name="contact_lname">
+                                        <label for="contact_lname">نام و نام خانوادگی</label>
+                                        <input type="text" class="form-control" name="name" required>
                                     </div>
                                     <div class="input-group">
-                                        <label for="contact_fphone">تلفن همراه</label>
-                                        <input type="tel" class="form-control" id="contact_fphone" name="contact_fphone">
+                                        <label for="contact_fphone">عنوان پیام</label>
+                                        <input type="text" class="form-control" name="title" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row m0">
                                 <div class="col-sm-12">
                                     <label for="contact_fmsg">متن پیام</label>
-                                    <textarea name="contact_fmsg" id="contact_fmsg" class="form-control"></textarea>
+                                    <textarea name="message" id="contact_fmsg" class="form-control" required></textarea>
                                 </div>
                             </div>
                             <div class="row m0 security_captcha">
@@ -80,7 +81,7 @@
                                     <div class="fleft security_captcha_input"><input type="text" class="form-control" id="contact_fsc" name="contact_fsc"><input type="text" value="1v0h92" class="hidden" id="contact_fsc_hidden"></div>
                                     <div class="fleft security_img"><img src="{% static 'images/captcha.png' %}" alt=""></div>
                                 </div>
-                            </div>
+                            </div>                            
                             <div class="row m0">
                                 <div class="col-sm-12">
                                     <input type="submit" class="submit_btn" value="ارسال">
@@ -127,21 +128,4 @@
         </div>
     </section>
     
-    <section class="row book_banner">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-8 col-md-9">
-                    <div class="row m0">
-                        <h3 class="bannerTitle">سیستم نوبت دهی آنلاین</h3>
-                        <h5>لورم ایپسوم یا طرح‌نما به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود</h5>
-                    </div>
-                </div>
-                <div class="col-sm-4 col-md-3">
-                    <div class="row m0">
-                        <a href="#" data-toggle="modal" data-target="#appointmefnt_form_pop" class="view_all">نوبت دهی</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 {% endblock %}

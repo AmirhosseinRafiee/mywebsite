@@ -97,7 +97,6 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{% url 'website:contact' %}">تماس با ما</a></li>
                     <li><a href="{% url 'blog:index' %}">وبلاگ</a></li>
-                    <li><a href="doctors.html">پزشکان</a></li>
                     <li><a href="{% url 'website:services' %}">خدمات</a></li>
                     <li><a href="{% url 'website:index' %}">صفحه نخست</a></li>
                     <!-- <li class="hidden-xs book"><a href="#" data-toggle="modal" data-target="#appointmefnt_form_pop">نوبت دهی</a></li> -->
@@ -122,9 +121,10 @@
                     <div class="heading row m0">
                         <h3>عضویت در خبرنامه</h3>
                     </div>
-                    <form action="#" class="row m0 newsletterForm">
-                        <input type="text" class="form-control" placeholder="نام شما">
-                        <input type="email" class="form-control" placeholder="آدرس ایمیل خود را وارد کنید">
+                    <form method="post" action="{% url 'website:index' %}" class="row m0 newsletterForm">
+                        {% csrf_token %}
+                        <input name="name" type="text" class="form-control" placeholder="نام شما">
+                        <input name="email" type="email" class="form-control" placeholder="آدرس ایمیل خود را وارد کنید">
                         <input type="submit" class="form-control" value="ثبت">
                     </form>
                 </div>
@@ -238,15 +238,6 @@
         </div>
     </div>
 
-    {% for message in messages %}
-    <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert" style=" position: fixed;  top: 50%;  left: 50%;  transform: translate(-50%, -50%);  width: 50%;">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="True">&times;</span>
-      </button>
-      {{ message }}
-    </div>
-    {% endfor %}
-
     <!--jQuery, Bootstrap and other vendor JS-->
 
     <!--jQuery-->
@@ -277,6 +268,15 @@
     <!--Strella JS-->
     <script src="{% static 'js/theme.js' %}"></script>
     <script src="{% static 'js/revs.js' %}"></script>
+
+    {% for message in messages %}
+    <div class="alert messages alert-{{message.tags}} alert-dismissible" role="alert" style=" position: fixed;  top: 50%;  left: 50%;  transform: translate(-50%, -50%);  width: 50%; direction: rtl;">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="True">&times;</span>
+      </button>
+      {{ message }}
+    </div>
+    {% endfor %}
 </body>
 
 </html>

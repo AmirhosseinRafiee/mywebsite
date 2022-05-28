@@ -3,6 +3,8 @@ djangorestframework
 django-taggit
 Pillow
 django-summernote
+django-phonenumber-field
+phonenumberslite
 django-jalali-date
 asgiref
 pytz
